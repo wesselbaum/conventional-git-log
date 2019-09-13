@@ -4,13 +4,13 @@ Extend git log with [conventional commits](https://www.conventionalcommits.org/e
 
 # Install 
 
-npm install conventional-git-log -g
+`npm install conventional-git-log -g`
 
 # Usage
 First of all you need to navigate to your git directory.
 
 ## Basic call
-`<name> `
+`conventional-git-log`
 
 ## Options
 | Option        | Description | Default |
