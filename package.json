@@ -1,0 +1,27 @@
+{
+  "name": "conventional-git-log",
+  "version": "1.0.0",
+  "description": "Extend git log with conventional commits, origin URL and custom replacements",
+  "main": "./index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "readme": "./index.js --since test --outputEmptyGroup false --replaceBody \"[{replace: '\\n',substring:'\\n  * '}]\" --replaceInterpolated \"[{replace: /  \\* \\\\n/, substring: ''},{replace: /\\\\n  \\* $/, substring: ''}]\""
+  },
+  "keywords": [
+    "git;log;cli;extended;conventional commit;replace;regex;regular expression;conventional;commit;output;console;changelog"
+  ],
+  "author": "wesselbaum",
+  "license": "ISC",
+  "dependencies": {
+    "git-commits-since": "^2.0.5",
+    "git-raw-commits": "^2.0.0",
+    "git-remote-protocol": "^0.1.0",
+    "lodash": "^4.17.5",
+    "parse-commit-message": "^3.2.3",
+    "remote-origin-url": "^2.0.0",
+    "yargs": "^14.0.0"
+  },
+  "bin": {
+    "convention-commit-log": "./index.js"
+  }
+}
