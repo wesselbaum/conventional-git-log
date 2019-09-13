@@ -1,10 +1,10 @@
-# <Name>
+# conventional-git-log
 
 Extend git log with [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/), origin URL and custom replacements
 
 # Install 
 
-npm install <Name> -g
+npm install conventional-git-log -g
 
 # Usage
 First of all you need to navigate to your git directory.

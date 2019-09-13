@@ -3,15 +3,35 @@
   "version": "1.0.0",
   "description": "Extend git log with conventional commits, origin URL and custom replacements",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wesselbaum/conventional-git-log.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wesselbaum/conventional-git-log/issues"
+  },
+  "homepage": "https://github.com/wesselbaum/conventional-git-log#readme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "readme": "./index.js --since test --outputEmptyGroup false --replaceBody \"[{replace: '\\n',substring:'\\n  * '}]\" --replaceInterpolated \"[{replace: /  \\* \\\\n/, substring: ''},{replace: /\\\\n  \\* $/, substring: ''}]\""
   },
   "keywords": [
-    "git;log;cli;extended;conventional commit;replace;regex;regular expression;conventional;commit;output;console;changelog"
+    "git",
+    "log",
+    "cli",
+    "extended",
+    "conventional commit",
+    "replace",
+    "regex",
+    "regular expression",
+    "conventional",
+    "commit",
+    "output",
+    "console",
+    "changelog"
   ],
-  "author": "wesselbaum",
-  "license": "ISC",
+  "author": "Aleksej Wesselbaum",
+  "license": "MIT",
   "dependencies": {
     "git-commits-since": "^2.0.5",
     "git-raw-commits": "^2.0.0",
