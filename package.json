@@ -12,7 +12,7 @@
   },
   "homepage": "https://github.com/wesselbaum/conventional-git-log#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha",
     "changelog": "./index.js --outputEmptyGroup false --replaceBody \"[{replace: '\\n',substring:'\\n  * '}]\" --replaceInterpolated \"[{replace: /  \\* \\\\n/, substring: ''},{replace: /\\\\n  \\* $/, substring: ''}]\""
   },
   "keywords": [
@@ -44,5 +44,8 @@
   },
   "bin": {
     "convention-commit-log": "./index.js"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.0"
   }
 }
