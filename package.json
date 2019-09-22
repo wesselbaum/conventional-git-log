@@ -13,6 +13,8 @@
   "homepage": "https://github.com/wesselbaum/conventional-git-log#readme",
   "scripts": {
     "test": "./node_modules/.bin/mocha",
+    "cover": "istanbul cover _mocha",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "changelog": "./index.js --outputEmptyGroup false --replaceBody \"[{replace: '\\n',substring:'\\n  * '}]\" --replaceInterpolated \"[{replace: /  \\* \\\\n/, substring: ''},{replace: /\\\\n  \\* $/, substring: ''}]\""
   },
   "keywords": [
@@ -47,7 +49,10 @@
     "convention-commit-log": "./index.js"
   },
   "devDependencies": {
-    "mocha": "^6.2.0"
+    "coveralls": "^3.0.6",
+    "istanbul": "^0.4.5",
+    "mocha": "^6.2.0",
+    "mocha-lcov-reporter": "^1.3.0"
   },
   "os": [
     "!win32",
