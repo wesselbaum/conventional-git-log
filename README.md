@@ -1,4 +1,6 @@
 # conventional-git-log
+[![Coverage Status](https://coveralls.io/repos/github/wesselbaum/conventional-git-log/badge.svg?branch=Unit_tests_%26_coverage)](https://coveralls.io/github/wesselbaum/conventional-git-log?branch=Unit_tests_%26_coverage)
+[![Build Status](https://travis-ci.org/wesselbaum/conventional-git-log.svg?branch=master)](https://travis-ci.org/wesselbaum/conventional-git-log)
 
 Extend git log with [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/), origin URL and custom replacements
 
