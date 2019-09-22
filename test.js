@@ -238,25 +238,37 @@ describe('orderCommits', function () {
     let orderedCommits = orderCommits.orderCommits(commitObjects, "ASC", "%_hSubject");
 
     assert.strictEqual(orderedCommits[0].hSubject, "Added missing attributes in package.json and readme");
+    assert.strictEqual(orderedCommits[1].hSubject, "Created Code of conduct");
+    assert.strictEqual(orderedCommits[2].hSubject, "Created Contributing");
     assert.strictEqual(orderedCommits[3].hSubject, "Initial commit");
+    assert.strictEqual(orderedCommits[4].hSubject, "Initial commit");
+    assert.strictEqual(orderedCommits[5].hSubject, "More consistent replacements");
     assert.strictEqual(orderedCommits[6].hSubject, "Replaced placeholder with module name");
   });
 
   it('order commits by Subject DESC', function () {
     let orderedCommits = orderCommits.orderCommits(commitObjects, "DESC", "%_hSubject");
 
-    assert.strictEqual(orderedCommits[6].hSubject, "Added missing attributes in package.json and readme");
-    assert.strictEqual(orderedCommits[3].hSubject, "Initial commit");
     assert.strictEqual(orderedCommits[0].hSubject, "Replaced placeholder with module name");
+    assert.strictEqual(orderedCommits[1].hSubject, "More consistent replacements");
+    assert.strictEqual(orderedCommits[2].hSubject, "Initial commit");
+    assert.strictEqual(orderedCommits[3].hSubject, "Initial commit");
+    assert.strictEqual(orderedCommits[4].hSubject, "Created Contributing");
+    assert.strictEqual(orderedCommits[5].hSubject, "Created Code of conduct");
+    assert.strictEqual(orderedCommits[6].hSubject, "Added missing attributes in package.json and readme");
   });
 
   it('order commits by Scope ASC', function () {
     let orderedCommits = orderCommits.orderCommits(commitObjects, "ASC", "%_hScope");
 
 
-    assert.strictEqual(orderedCommits[0].hScope, "");
-    assert.strictEqual(orderedCommits[3].hScope, null);
-    assert.strictEqual(orderedCommits[6].hScope, "package");
+    assert.strictEqual(orderedCommits[0].hScope, "community");
+    assert.strictEqual(orderedCommits[1].hScope, "community");
+    assert.strictEqual(orderedCommits[2].hScope, "package");
+    assert.strictEqual(orderedCommits[3].hScope, "readme");
+    assert.strictEqual(orderedCommits[4].hScope, "replacements");
+    assert.strictEqual(orderedCommits[5].hScope, null);
+    assert.strictEqual(orderedCommits[6].hScope, "");
   });
 
 

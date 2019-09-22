@@ -40,6 +40,7 @@
     "parse-commit-message": "^3.2.3",
     "remote-origin-url": "^2.0.0",
     "replace-string": "^3.0.0",
+    "sort-objects-array": "^1.7.0",
     "yargs": "^14.0.0"
   },
   "bin": {
@@ -47,5 +48,12 @@
   },
   "devDependencies": {
     "mocha": "^6.2.0"
+  },
+  "os": [
+    "!win32",
+    "!win64"
+  ],
+  "engines": {
+    "node": ">=8"
   }
 }
