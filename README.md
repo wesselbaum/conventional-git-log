@@ -1,6 +1,7 @@
 # conventional-git-log
 [![Coverage Status](https://coveralls.io/repos/github/wesselbaum/conventional-git-log/badge.svg?branch=Unit_tests_%26_coverage)](https://coveralls.io/github/wesselbaum/conventional-git-log?branch=Unit_tests_%26_coverage)
 [![Build Status](https://travis-ci.org/wesselbaum/conventional-git-log.svg?branch=master)](https://travis-ci.org/wesselbaum/conventional-git-log)
+[![dependencies Status](https://david-dm.org/wesselbaum/conventional-git-log/status.svg)](https://david-dm.org/wesselbaum/conventional-git-log)
 
 Extend git log with [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.2/), origin URL and custom replacements
 
@@ -28,7 +29,7 @@ First of all you need to navigate to your git directory.
 | `replaceBody` | Replaces the body of the conventional commit. Array of objects with `replace` and `substring` properties. Replace can be a String (_wrapped by Quotes_) or a RegExp Object (_wrapped by_ /) | `""` |
 | `replaceFooter` | Replaces the Footer of the conventional commit. Array of objects with `replace` and `substring` properties. Replace can be a String (_wrapped by Quotes_) or a RegExp Object (_wrapped by_ /) | `"[{replace: /(BREAKING CHANGE)/,substring:'**$1**'}]"` |
 | `replaceInterpolated` | Replaces the commit output after all interpolations and replacements of the conventional commit. Array of objects with `replace` and `substring` properties. Replace can be a String (_wrapped by Quotes_) or a RegExp Object (_wrapped by_ /) | `""` |
-| `q` | Should additional output will be supressed?  | `false` |
+| `q` | Should additional output will be suppressed?  | `false` |
 
 ## Custom placeholder
 | Placeholder        | Description |
@@ -39,3 +40,13 @@ First of all you need to navigate to your git directory.
 | `%_b` | Body of conventional commit |
 | `%_f` | Footer of conventional commit |
 | `%_o` | Origin remote as HTTPS url without '.git' |
+
+## Replacements
+The replacement elements are always an arrays containing objects with properties `replace` and `substring`.
+The replace property can be either a String or an RegExp. 
+
+### String 
+Starts and ends with quotation marks. Searches for all occurrences of the given string and replaces it with the `substring` property.
+
+### RegExp
+Starts and ends with `/` and may be followed with flags (`gim`). Searches for all occurrences according the RegExp and replaces it with the `substring` property. The `substring` property can contain the group placeholder (like `$1`).
