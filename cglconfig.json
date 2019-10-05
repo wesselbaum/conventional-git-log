@@ -1,0 +1,39 @@
+{
+  "orderBy": "%_hSubject",
+  "order": "ASC",
+  "groupRegex": [
+    {
+      "searchValue": {
+        "regexBody": "BREAKING CHANGE"
+      },
+      "headline": "Breaking changes"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^feat"
+      },
+      "headline": "Features"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^fix"
+      },
+      "headline": "Fixes"
+    }
+  ],
+  "groupTemplate": "## %_headline",
+  "outputEmptyGroup": true,
+  "replaceSubject": "",
+  "replaceBody": "",
+  "replaceFooter": [
+    {
+      "searchValue": {
+        "regexBody": "(BREAKING CHANGE)",
+        "regexFlags": "g"
+      },
+      "replaceValue": "**$1**"
+    }
+  ],
+  "replaceInterpolated": "",
+  "q": false
+}
