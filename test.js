@@ -5,6 +5,7 @@ const assert = require('assert');
 const commitsToObject = require("./lib/commitsToObjects");
 const orderCommits = require("./lib/orderCommits");
 const groupCommits = require("./lib/groupCommits");
+const options = require("./lib/options");
 
 const rawCommits = [
   "* **%_hScope:** %_hSubject ([4c18067](%_o/commit/4c18067)) @Aleksej Wesselbaum\n  * %_b\n  * %_f${B}feat(replacements): More consistent replacements\n\nA sting won't be converted to a RegExp\n\nBREAKING CHANGE: Test",
@@ -272,4 +273,12 @@ describe('orderCommits', function () {
   });
 
 
+});
+
+describe('options', function () {
+  process.argv.push("--test123='abc'");
+
+  it('path to config', function () {
+    options.getOptions()
+  })
 });

@@ -35,6 +35,7 @@
   "author": "Aleksej Wesselbaum",
   "license": "MIT",
   "dependencies": {
+    "findup-sync": "^4.0.0",
     "git-commits-since": "^2.0.5",
     "git-raw-commits": "^2.0.0",
     "git-remote-protocol": "^0.1.0",
