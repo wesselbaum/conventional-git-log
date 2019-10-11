@@ -50,6 +50,7 @@
     "convention-commit-log": "./index.js"
   },
   "devDependencies": {
+    "@types/node": "^12.7.12",
     "coveralls": "^3.0.6",
     "istanbul": "^0.4.5",
     "mocha": "^6.2.0",
