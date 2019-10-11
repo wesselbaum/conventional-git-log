@@ -262,7 +262,6 @@ describe('orderCommits', function () {
   it('order commits by Scope ASC', function () {
     let orderedCommits = orderCommits.orderCommits(commitObjects, "ASC", "%_hScope");
 
-
     assert.strictEqual(orderedCommits[0].hScope, "community");
     assert.strictEqual(orderedCommits[1].hScope, "community");
     assert.strictEqual(orderedCommits[2].hScope, "package");
@@ -276,9 +275,237 @@ describe('orderCommits', function () {
 });
 
 describe('options', function () {
-  process.argv.push("--test123='abc'");
 
-  it('path to config', function () {
-    options.getOptions()
-  })
+  it('StandardizeSearchValue String', function () {
+    const input = "Search";
+    const result = options.standardizeSearchValue(input);
+
+    assert.strictEqual(result, input);
+  });
+
+  it('StandardizeSearchValue RegExp', function () {
+    const input = /Search\w/g;
+    const result = options.standardizeSearchValue(input);
+
+    assert.strictEqual(result, input);
+  });
+
+  it('StandardizeSearchValue Object', function () {
+    const input = {
+      regexBody: "Search\\w",
+      regexFlags: "gi"
+    };
+
+    const result = options.standardizeSearchValue(input);
+
+    assert.deepStrictEqual(result, /Search\w/gi);
+  });
+
+  it('StandardizeSearchValue Invalid Object', function () {
+    const input1 = {
+      regexBod: "Search\\w",
+      regexFlags: "gi"
+    };
+
+    const input2 = {
+      regexBody: /Search\w/g,
+      regexFlags: "gi"
+    };
+
+    const input3 = {
+      regexBody: {
+        hello: "world"
+      },
+      regexFlags: "gi"
+    };
+
+    const result1 = options.standardizeSearchValue(input1);
+    const result2 = options.standardizeSearchValue(input2);
+    const result3 = options.standardizeSearchValue(input3);
+    const result4 = options.standardizeSearchValue(null);
+
+    assert.strictEqual(null, result1);
+    assert.strictEqual(null, result2);
+    assert.strictEqual(null, result3);
+    assert.strictEqual(null, result4);
+
+  });
+
+  it('standardizeReplaceObject String', function () {
+    const input = {
+      searchValue: "Search",
+      substring: "search"
+    };
+
+    const result = options.standardizeReplaceObject(input);
+
+    assert.deepStrictEqual(result, input);
+  });
+
+  it('standardizeReplaceObject RegExp', function () {
+    const input = {
+      searchValue: "/Search\\w/g",
+      substring: "search"
+    };
+
+    const result = options.standardizeReplaceObject(input);
+
+    assert.deepStrictEqual(result, input);
+  });
+
+  it('standardizeReplaceObject Object', function () {
+    const input = {
+      searchValue: {
+        regexBody: "Search\\w",
+        regexFlags: "gi"
+      },
+      substring: "search"
+    };
+
+    const result = options.standardizeReplaceObject(input);
+
+    assert.deepStrictEqual(result.searchValue, /Search\w/gi);
+  });
+
+  it('standardizeReplaceObject Invalid', function () {
+    const input1 = {
+      searchValue: {
+        regexBod: "Search\\w",
+        regexFlags: "gi"
+      },
+      substring: "x"
+    };
+
+    const input2 = {
+      searchValue: {
+        regexBody: /Search\w/g,
+        regexFlags: "gi"
+      },
+      substring: "x"
+    };
+
+    const input3 = {
+      searchValue: {
+        regexBody: {
+          hello: "world"
+        },
+        regexFlags: "gi"
+      },
+      substring: "x"
+    };
+
+    const result1 = options.standardizeReplaceObject(input1);
+    const result2 = options.standardizeSearchValue(input2);
+    const result3 = options.standardizeSearchValue(input3);
+    const result4 = options.standardizeSearchValue(null);
+
+    assert.strictEqual(null, result1);
+    assert.strictEqual(null, result2);
+    assert.strictEqual(null, result3);
+    assert.strictEqual(null, result4);
+  });
+
+
+  it('standardizeReplaceObjectArray ', function () {
+    const input0 = {
+      searchValue: {
+        regexBod: "Search\\w",
+        regexFlags: "gi"
+      },
+      substring: "x"
+    };
+
+    const input1 = {
+      searchValue: {
+        regexBody: /Search\w/g,
+        regexFlags: "gi"
+      },
+      substring: "x"
+    };
+
+    const input2 = {
+      searchValue: {
+        regexBody: {
+          hello: "world"
+        },
+        regexFlags: "gi"
+      },
+      substring: "x"
+    };
+
+    const input3 = null;
+
+    const input4 = {
+      searchValue: {
+        regexBody: "Search\\w",
+        regexFlags: "gi"
+      },
+      substring: "search"
+    };
+
+    const input5 = {
+      searchValue: "/Search\\w/g",
+      substring: "search"
+    };
+
+    const input6 = {
+      searchValue: "Search",
+      substring: "search"
+    };
+
+    const inputArray = [input0, input1, input2, input3, input4, input5, input6];
+
+    const result = options.standardizeReplaceArray(inputArray);
+
+    assert.deepStrictEqual(result.length, 3);
+    assert.deepStrictEqual(result[0].searchValue, /Search\w/gi);
+    assert.deepStrictEqual(result[0].substring, "search");
+    assert.deepStrictEqual(result[1], input5);
+    assert.deepStrictEqual(result[2], input6);
+  });
+
+
+  it('standardizeReplaceObject ', function () {
+
+  });
+
+
+  it('standardizeReplaceObject ', function () {
+
+  });
+
+
+  it('standardizeReplaceObject ', function () {
+
+  });
+
+
+  it('standardizeReplaceObject ', function () {
+
+  });
+
+
+  it('standardizeReplaceObject ', function () {
+
+  });
+
+
+  it('standardizeReplaceObject ', function () {
+
+  });
+
+
+  it('standardizeReplaceObject ', function () {
+
+  });
+
+
+  it('standardizeReplaceObject ', function () {
+
+  });
+
+  // it('standardizeReplaceObject ', function () {
+  //
+  // });
+
 });
