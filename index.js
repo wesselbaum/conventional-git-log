@@ -4,48 +4,27 @@
 
 const commitsSince = require("./lib/commitsSince");
 const commitsToObject = require("./lib/commitsToObjects");
-const orderCommits = require("./lib/orderCommits");
-const groupCommits = require("./lib/groupCommits");
-const options = require("./lib/options");
-const argv = require('yargs').argv;
+const orderCommits = require("./lib/orderCommits").orderCommits;
+const groupCommits = require("./lib/groupCommits").groupCommits;
+const options = require("./lib/options").getOptions();
 const origin = require('remote-origin-url');
 const gitRemote = require('git-remote-protocol');
 
-
-// let format = argv.format ? argv.format : "* **%_hScope:** %_hSubject ([%h](%_o/commit/%h)) @%an%n  * %_b%n  * %_f";
-// let since = argv.since !== undefined ? argv.since : "package";
-// let orderBy = argv.orderBy ? argv.orderBy : "%_hSubject";
-// let order = argv.order ? argv.order : "ASC";
-// let groupRegex = argv.groupRegex !== undefined ? argv.groupRegex : "[{regex: 'BREAKING CHANGE',headline: 'Breaking changes'},{regex: '^feat',headline: 'Features'},{regex: '^fix',headline:'Fixes'}]";
-// let groupTemplate = argv.groupTemplate ? argv.groupTemplate : "## %_headline";
-// let outputEmptyGroup = argv.outputEmptyGroup !== undefined ? JSON.parse(argv.outputEmptyGroup.toString().toLowerCase()) : true;
-//
-// let replaceSubject = argv.replaceSubject ? argv.replaceSubject : "";
-// let replaceBody = argv.replaceBody ? argv.replaceBody : '';
-// let replaceFooter = argv.replaceFooter ? argv.replaceFooter : "[{replace: /(BREAKING CHANGE)/,substring:'**$1**'}]";
-// let replaceInterpolated = argv.replaceInterpolated ? argv.replaceInterpolated : "";
-//
-// let q = argv.q !== undefined ? JSON.parse(argv.q.toString().toLowerCase()) : false;
-//
-//
-// format += "${B}%B";
-console.log(options.getOptions());
-
-commitsSince.commitsSince(since, format).then(function (rawCommits) {
+commitsSince.commitsSince(options.since, options.format).then(function (rawCommits) {
   let origin = getOrigin();
-  let commitObjects = commitsToObject.commitsToObject(rawCommits, origin, q, replaceSubject, replaceBody, replaceFooter, replaceInterpolated);
+  let commitObjects = commitsToObject.commitsToObject(rawCommits, origin, options);
 
-  commitObjects = orderCommits.orderCommits(commitObjects, order, orderBy);
+  commitObjects = orderCommits(commitObjects, options.order, options.orderBy);
 
-  let groupedCommtis = groupCommits.groupCommits(commitObjects, groupRegex);
+  let groupedCommits = groupCommits(commitObjects, options.groupRegex);
 
   // Output
-  for (let headline in groupedCommtis) {
-    if (groupedCommtis[headline].length > 0 || outputEmptyGroup) {
+  for (let headline in groupedCommits) {
+    if (groupedCommits[headline].length > 0 || options.outputEmptyGroup) {
 
-      console.log(groupTemplate.replace("%_headline", headline));
-      for (let i = 0; i < groupedCommtis[headline].length; i++) {
-        console.log(groupedCommtis[headline][i].interpolatedCommitMessage);
+      console.log(options.groupTemplate.replace("%_headline", headline));
+      for (let i = 0; i < groupedCommits[headline].length; i++) {
+        console.log(groupedCommits[headline][i].interpolatedCommitMessage);
       }
     }
   }
