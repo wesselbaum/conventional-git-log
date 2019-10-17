@@ -2,10 +2,11 @@
 const assert = require('assert');
 
 // Libs
+// const opt = require("./lib/options");
+const opt = require("./lib/options");
 const commitsToObject = require("./lib/commitsToObjects");
 const orderCommits = require("./lib/orderCommits");
 const groupCommits = require("./lib/groupCommits");
-const options = require("./lib/options");
 
 const rawCommits = [
   "* **%_hScope:** %_hSubject ([4c18067](%_o/commit/4c18067)) @Aleksej Wesselbaum\n  * %_b\n  * %_f${B}feat(replacements): More consistent replacements\n\nA sting won't be converted to a RegExp\n\nBREAKING CHANGE: Test",
@@ -16,13 +17,14 @@ const rawCommits = [
   "* **%_hScope:** %_hSubject ([f05160b](%_o/commit/f05160b)) @Aleksej Wesselbaum\n  * %_b\n  * %_f${B}feat: Initial commit\n\n",
   "* **%_hScope:** %_hSubject ([4bec025](%_o/commit/4bec025)) @Aleksej Wesselbaum\n  * %_b\n  * %_f${B}Initial commit\n\nInvalid body"
 ];
+const options = opt.getOptions();
 
 
 // noinspection NodeModulesDependencies,ES6ModulesDependencies
 describe('commitsToObjects', function () {
 
   it('validCommitToObject', function () {
-    let commitObject = commitsToObject.commitToObject(rawCommits[0], "origin", true, [], [], [], []);
+    let commitObject = commitsToObject.commitToObject(rawCommits[0], "origin", options);
     assert.strictEqual(commitObject.parsedCommitMessage.header.type, "feat");
     assert.strictEqual(commitObject.hType, "feat");
     assert.strictEqual(commitObject.parsedCommitMessage.header.scope, "replacements");
@@ -31,15 +33,15 @@ describe('commitsToObjects', function () {
     assert.strictEqual(commitObject.hSubject, "More consistent replacements");
     assert.strictEqual(commitObject.parsedCommitMessage.body, "A sting won\'t be converted to a RegExp");
     assert.strictEqual(commitObject.b, "A sting won\'t be converted to a RegExp");
-    assert.strictEqual(commitObject.parsedCommitMessage.footer, "BREAKING CHANGE: Test");
-    assert.strictEqual(commitObject.f, "BREAKING CHANGE: Test");
+    assert.strictEqual(commitObject.parsedCommitMessage.footer, "**BREAKING CHANGE**: Test");
+    assert.strictEqual(commitObject.f, "**BREAKING CHANGE**: Test");
     assert.strictEqual(commitObject.origin, "origin");
     assert.strictEqual(commitObject.o, "origin");
 
   });
 
   it('invalidCommitToObject', function () {
-    let commitObject = commitsToObject.commitToObject(rawCommits[6], "origin", true, [], [], [], []);
+    let commitObject = commitsToObject.commitToObject(rawCommits[6], "origin", options);
     assert.strictEqual(commitObject.parsedCommitMessage.header.type, "");
     assert.strictEqual(commitObject.hType, "");
     assert.strictEqual(commitObject.parsedCommitMessage.header.scope, "");
@@ -54,8 +56,9 @@ describe('commitsToObjects', function () {
     assert.strictEqual(commitObject.o, "origin");
 
   });
+
   it('commitsToObject', function () {
-    let commitObjects = commitsToObject.commitsToObject(rawCommits, "origin", true, [], [], [], []);
+    let commitObjects = commitsToObject.commitsToObject(rawCommits, "origin", options);
 
     assert.strictEqual(commitObjects.length, 7);
 
@@ -68,8 +71,8 @@ describe('commitsToObjects', function () {
     assert.strictEqual(commitObjects[0].hSubject, "More consistent replacements");
     assert.strictEqual(commitObjects[0].parsedCommitMessage.body, "A sting won\'t be converted to a RegExp");
     assert.strictEqual(commitObjects[0].b, "A sting won\'t be converted to a RegExp");
-    assert.strictEqual(commitObjects[0].parsedCommitMessage.footer, "BREAKING CHANGE: Test");
-    assert.strictEqual(commitObjects[0].f, "BREAKING CHANGE: Test");
+    assert.strictEqual(commitObjects[0].parsedCommitMessage.footer, "**BREAKING CHANGE**: Test");
+    assert.strictEqual(commitObjects[0].f, "**BREAKING CHANGE**: Test");
     assert.strictEqual(commitObjects[0].origin, "origin");
     assert.strictEqual(commitObjects[0].o, "origin");
 
@@ -101,95 +104,119 @@ describe('commitsToObjects', function () {
 
   // Multiple replace
   it('multipleReplace simple string', function () {
-    let commitObject = commitsToObject.commitToObject(rawCommits[0], "origin", true, [], [], [], []);
+    let commitObject = commitsToObject.commitToObject(rawCommits[0], "origin", options);
     let replacementArray = [
       {
-        replace: "sting",
-        substring: 'string'
+        searchValue: "sting",
+        replaceValue: 'string'
       }
     ];
 
-    let replacedBody = commitsToObject.multipleReplace(commitObject.b, JSON.stringify(replacementArray));
+    let replacedBody = commitsToObject.multipleReplace(commitObject.b, replacementArray, true);
     assert.strictEqual(replacedBody, "A string won\'t be converted to a RegExp");
   });
   it('multipleReplace simple string single letter', function () {
-    let commitObject = commitsToObject.commitToObject(rawCommits[0], "origin", true, [], [], [], []);
+    let commitObject = commitsToObject.commitToObject(rawCommits[0], "origin", options);
     let replacementArray = [
       {
-        replace: "o",
-        substring: 'x'
+        searchValue: "o",
+        replaceValue: 'x'
       }
     ];
 
-    let replacedBody = commitsToObject.multipleReplace(commitObject.b, JSON.stringify(replacementArray));
+    let replacedBody = commitsToObject.multipleReplace(commitObject.b, replacementArray, true);
     assert.strictEqual(replacedBody, "A sting wxn\'t be cxnverted tx a RegExp");
   });
   it('multipleReplace multiple simple string', function () {
-    let commitObject = commitsToObject.commitToObject(rawCommits[0], "origin", true, [], [], [], []);
+    let commitObject = commitsToObject.commitToObject(rawCommits[0], "origin", options);
     let replacementArray = [
       {
-        replace: "sting",
-        substring: 'string'
+        searchValue: "sting",
+        replaceValue: 'string'
       },
       {
-        replace: "ring",
-        substring: 'rung'
+        searchValue: "ring",
+        replaceValue: 'rung'
       },
       {
-        replace: "a",
-        substring: '_'
+        searchValue: "a",
+        replaceValue: '_'
       },
       {
-        replace: "e",
-        substring: '_'
+        searchValue: "e",
+        replaceValue: '_'
       },
       {
-        replace: "i",
-        substring: '_'
+        searchValue: "i",
+        replaceValue: '_'
       },
       {
-        replace: "o",
-        substring: '_'
+        searchValue: "o",
+        replaceValue: '_'
       }
     ];
 
-    let replacedBody = commitsToObject.multipleReplace(commitObject.b, JSON.stringify(replacementArray));
+    let replacedBody = commitsToObject.multipleReplace(commitObject.b, replacementArray, true);
     assert.strictEqual(replacedBody, "A strung w_n't b_ c_nv_rt_d t_ _ R_gExp");
   });
   it('multipleReplace \\n string', function () {
-    let commitObject = commitsToObject.commitToObject(rawCommits[1], "origin", true, [], [], [], []);
+    let commitObject = commitsToObject.commitToObject(rawCommits[1], "origin", options);
     let replacementArray = [
       {
-        replace: "\n",
-        substring: '\nNL'
+        searchValue: "\n",
+        replaceValue: '\nNL'
       }
     ];
 
-    let replacedBody = commitsToObject.multipleReplace(commitObject.b, JSON.stringify(replacementArray));
+    let replacedBody = commitsToObject.multipleReplace(commitObject.b, replacementArray, true);
     assert.strictEqual(replacedBody, "Body\nNLBody2");
   });
-  it('multipleReplace simle RegExp', function () {
-    let commitObject = commitsToObject.commitToObject(rawCommits[1], "origin", true, [], [], [], []);
+  it('multipleReplace simple RegExp', function () {
+    let commitObject = commitsToObject.commitToObject(rawCommits[1], "origin", options);
+    let replacementArray = [
+      {
+        searchValue: /ody/g,
+        replaceValue: 'acon'
+      }
+    ];
 
-    let replacedBody = commitsToObject.multipleReplace(commitObject.b, "[{replace: /ody/g,substring:'acon'}]");
+    let replacedBody = commitsToObject.multipleReplace(commitObject.b, replacementArray, true);
     assert.strictEqual(replacedBody, "Bacon\nBacon2");
   });
   it('multipleReplace single RegExp letter', function () {
-    let commitObject = commitsToObject.commitToObject(rawCommits[1], "origin", true, [], [], [], []);
+    let commitObject = commitsToObject.commitToObject(rawCommits[1], "origin", options);
+    let replacementArray = [
+      {
+        searchValue: /o/g,
+        replaceValue: 'x'
+      }
+    ];
 
-    let replacedBody = commitsToObject.multipleReplace(commitObject.b, "[{replace: /o/g,substring:'x'}]");
+    let replacedBody = commitsToObject.multipleReplace(commitObject.b, replacementArray, true);
     assert.strictEqual(replacedBody, "Bxdy\nBxdy2");
   });
   it('multipleReplace \\n RegExp', function () {
-    let commitObject = commitsToObject.commitToObject(rawCommits[1], "origin", true, [], [], [], []);
+    let commitObject = commitsToObject.commitToObject(rawCommits[1], "origin", options);
+    let replacementArray = [
+      {
+        searchValue: /.*\n/g,
+        replaceValue: 'Firstline ->'
+      }
+    ];
 
-    let replacedBody = commitsToObject.multipleReplace(commitObject.b, "[{replace: /.*\\n/g,substring:'Firstline ->'}]");
+    let replacedBody = commitsToObject.multipleReplace(commitObject.b, replacementArray, true);
     assert.strictEqual(replacedBody, "Firstline ->Body2");
   });
-  it('multipleReplace \\n RegExp', function () {
-    let commitObject = commitsToObject.commitToObject(rawCommits[1], "origin", true, [], [], [], []);
+  it('multipleReplace \\n RegExp 2', function () {
+    let commitObject = commitsToObject.commitToObject(rawCommits[1], "origin", options);
+    let replacementArray = [
+      {
+        searchValue: /(ody)/g,
+        replaceValue: 'acon-b$1'
+      }
+    ];
 
-    let replacedBody = commitsToObject.multipleReplace(commitObject.b, "[{replace: /(ody)/g,substring:'acon-b$1'}]");
+    let replacedBody = commitsToObject.multipleReplace(commitObject.b, replacementArray, true);
     assert.strictEqual(replacedBody, "Bacon-body\nBacon-body2");
   });
 });
@@ -197,10 +224,24 @@ describe('commitsToObjects', function () {
 // noinspection NodeModulesDependencies,ES6ModulesDependencies
 describe('groupCommits', function () {
 
-  let commitObjects = commitsToObject.commitsToObject(rawCommits, "origin", true, [], [], [], []);
+  let commitObjects = commitsToObject.commitsToObject(rawCommits, "origin", options);
 
-  it('groupBySubject by regex string', function () {
-    let groupedCommits = groupCommits.groupCommits(commitObjects, "[{regex: 'BREAKING CHANGE',headline: 'Breaking changes'},{regex: '^feat',headline: 'Features'},{regex: '^fix',headline:'Fixes'}]");
+  it('groupBySubject', function () {
+    let groupRegex = [
+      {
+        searchValue: /BREAKING CHANGE/,
+        headline: 'Breaking changes'
+      },
+      {
+        searchValue: /^feat/,
+        headline: 'Features'
+      },
+      {
+        searchValue: /^fix/,
+        headline: 'Fixes'
+      }
+    ];
+    let groupedCommits = groupCommits.groupCommits(commitObjects, groupRegex);
 
     assert.strictEqual(Object.keys(groupedCommits).length, 3);
     assert.strictEqual(groupedCommits['Breaking changes'].length, 1);
@@ -209,18 +250,26 @@ describe('groupCommits', function () {
 
   });
 
-  it('groupBySubject by regex objects', function () {
-    let groupedCommits = groupCommits.groupCommits(commitObjects, "[{regex: /BREAKING CHANGE/,headline: 'Breaking changes'},{regex: /^feat/,headline: 'Features'},{regex: /^fix/,headline:'Fixes'}]");
-
-    assert.strictEqual(Object.keys(groupedCommits).length, 3);
-    assert.strictEqual(groupedCommits['Breaking changes'].length, 1);
-    assert.strictEqual(groupedCommits['Features'].length, 1);
-    assert.strictEqual(groupedCommits['Fixes'].length, 0);
-
-  });
 
   it('groupBySubject including others', function () {
-    let groupedCommits = groupCommits.groupCommits(commitObjects, "[{regex: /BREAKING CHANGE/,headline: 'Breaking changes'},{regex: /^feat/,headline: 'Features'},{regex: /^fix/,headline:'Fixes'},{regex: /.*/,headline:'Others'}]");
+    let groupRegex = [
+      {
+        searchValue: /BREAKING CHANGE/,
+        headline: 'Breaking changes'
+      },
+      {
+        searchValue: /^feat/,
+        headline: 'Features'
+      },
+      {
+        searchValue: /^fix/,
+        headline: 'Fixes'
+      },
+      {
+        searchValue: /.*/,
+        headline: 'Others'
+      }];
+    let groupedCommits = groupCommits.groupCommits(commitObjects, groupRegex);
 
     assert.strictEqual(Object.keys(groupedCommits).length, 4);
     assert.strictEqual(groupedCommits['Breaking changes'].length, 1);
@@ -233,7 +282,7 @@ describe('groupCommits', function () {
 // noinspection NodeModulesDependencies,ES6ModulesDependencies
 describe('orderCommits', function () {
 
-  let commitObjects = commitsToObject.commitsToObject(rawCommits, "origin", true, [], [], [], []);
+  let commitObjects = commitsToObject.commitsToObject(rawCommits, "origin", options);
 
   it('order commits by Subject ASC', function () {
     let orderedCommits = orderCommits.orderCommits(commitObjects, "ASC", "%_hSubject");
@@ -278,14 +327,14 @@ describe('options', function () {
 
   it('StandardizeSearchValue String', function () {
     const input = "Search";
-    const result = options.standardizeSearchValue(input);
+    const result = opt.standardizeSearchValue(input);
 
     assert.strictEqual(result, input);
   });
 
   it('StandardizeSearchValue RegExp', function () {
     const input = /Search\w/g;
-    const result = options.standardizeSearchValue(input);
+    const result = opt.standardizeSearchValue(input);
 
     assert.strictEqual(result, input);
   });
@@ -296,7 +345,7 @@ describe('options', function () {
       regexFlags: "gi"
     };
 
-    const result = options.standardizeSearchValue(input);
+    const result = opt.standardizeSearchValue(input);
 
     assert.deepStrictEqual(result, /Search\w/gi);
   });
@@ -319,10 +368,10 @@ describe('options', function () {
       regexFlags: "gi"
     };
 
-    const result1 = options.standardizeSearchValue(input1);
-    const result2 = options.standardizeSearchValue(input2);
-    const result3 = options.standardizeSearchValue(input3);
-    const result4 = options.standardizeSearchValue(null);
+    const result1 = opt.standardizeSearchValue(input1);
+    const result2 = opt.standardizeSearchValue(input2);
+    const result3 = opt.standardizeSearchValue(input3);
+    const result4 = opt.standardizeSearchValue(null);
 
     assert.strictEqual(null, result1);
     assert.strictEqual(null, result2);
@@ -334,10 +383,10 @@ describe('options', function () {
   it('standardizeReplaceObject String', function () {
     const input = {
       searchValue: "Search",
-      substring: "search"
+      replaceValue: "search"
     };
 
-    const result = options.standardizeReplaceObject(input);
+    const result = opt.standardizeReplaceObject(input);
 
     assert.deepStrictEqual(result, input);
   });
@@ -345,10 +394,10 @@ describe('options', function () {
   it('standardizeReplaceObject RegExp', function () {
     const input = {
       searchValue: "/Search\\w/g",
-      substring: "search"
+      replaceValue: "search"
     };
 
-    const result = options.standardizeReplaceObject(input);
+    const result = opt.standardizeReplaceObject(input);
 
     assert.deepStrictEqual(result, input);
   });
@@ -362,7 +411,7 @@ describe('options', function () {
       substring: "search"
     };
 
-    const result = options.standardizeReplaceObject(input);
+    const result = opt.standardizeReplaceObject(input);
 
     assert.deepStrictEqual(result.searchValue, /Search\w/gi);
   });
@@ -394,10 +443,10 @@ describe('options', function () {
       substring: "x"
     };
 
-    const result1 = options.standardizeReplaceObject(input1);
-    const result2 = options.standardizeSearchValue(input2);
-    const result3 = options.standardizeSearchValue(input3);
-    const result4 = options.standardizeSearchValue(null);
+    const result1 = opt.standardizeReplaceObject(input1);
+    const result2 = opt.standardizeSearchValue(input2);
+    const result3 = opt.standardizeSearchValue(input3);
+    const result4 = opt.standardizeSearchValue(null);
 
     assert.strictEqual(null, result1);
     assert.strictEqual(null, result2);
@@ -412,7 +461,7 @@ describe('options', function () {
         regexBod: "Search\\w",
         regexFlags: "gi"
       },
-      substring: "x"
+      replaceValue: "x"
     };
 
     const input1 = {
@@ -420,7 +469,7 @@ describe('options', function () {
         regexBody: /Search\w/g,
         regexFlags: "gi"
       },
-      substring: "x"
+      replaceValue: "x"
     };
 
     const input2 = {
@@ -430,7 +479,7 @@ describe('options', function () {
         },
         regexFlags: "gi"
       },
-      substring: "x"
+      replaceValue: "x"
     };
 
     const input3 = null;
@@ -440,57 +489,239 @@ describe('options', function () {
         regexBody: "Search\\w",
         regexFlags: "gi"
       },
-      substring: "search"
+      replaceValue: "search"
     };
 
     const input5 = {
       searchValue: "/Search\\w/g",
-      substring: "search"
+      replaceValue: "search"
     };
 
     const input6 = {
       searchValue: "Search",
-      substring: "search"
+      replaceValue: "search"
     };
 
     const inputArray = [input0, input1, input2, input3, input4, input5, input6];
 
-    const result = options.standardizeReplaceArray(inputArray);
+    const result = opt.standardizeReplaceArray(inputArray);
 
     assert.deepStrictEqual(result.length, 3);
     assert.deepStrictEqual(result[0].searchValue, /Search\w/gi);
-    assert.deepStrictEqual(result[0].substring, "search");
+    assert.deepStrictEqual(result[0].replaceValue, "search");
     assert.deepStrictEqual(result[1], input5);
     assert.deepStrictEqual(result[2], input6);
   });
 
 
-  it('standardizeReplaceObject ', function () {
+  it('standardizeGroupRegex undefined', function () {
+    assert.strictEqual(opt.standardizeGroupRegex(undefined), null)
+  });
+
+  it('standardizeGroupRegex null', function () {
+    assert.strictEqual(opt.standardizeGroupRegex(null), null)
+  });
+
+  it('standardizeGroupRegex empty object', function () {
+    assert.strictEqual(opt.standardizeGroupRegex({}), null)
+  });
+
+  it('standardizeGroupRegex invalid object', function () {
+    assert.deepStrictEqual(opt.standardizeGroupRegex([{object: "invalid"}]), [])
+  });
+
+
+  it('standardizeGroupRegex valid', function () {
+    const validGroupRegex = [
+      {
+        searchValue: {
+          "regexBody": "BREAKING CHANGE"
+        }
+      },
+      {
+        searchValue: {
+          "regexBody": "^fix",
+          "regexFlags": "gi"
+        }
+      }
+    ];
+
+
+    assert.strictEqual(opt.standardizeGroupRegex(validGroupRegex).length, 2);
+    assert.deepStrictEqual(opt.standardizeGroupRegex(validGroupRegex)[0].searchValue, /BREAKING CHANGE/);
+    assert.deepStrictEqual(opt.standardizeGroupRegex(validGroupRegex)[1].searchValue, /^fix/gi);
+  });
+
+
+  it('isReplaceObject valid', function () {
+    const validObject1 = {searchValue: "searchMe", substring: "insertMe"};
+    const validObject2 = {searchValue: /searchMe/, substring: "insertMe"};
+    const validObject3 = {searchValue: {regexBody: "(BREAKING CHANGE)", regexFlags: "g"}, substring: "insertMe"};
+
+    assert.strictEqual(true, opt.isReplaceObject(validObject1));
+    assert.strictEqual(true, opt.isReplaceObject(validObject2));
+    assert.strictEqual(true, opt.isReplaceObject(validObject3));
+
+
+  });
+
+  it('isReplaceObject invalid', function () {
+    const validObject1 = {searchValue: null, substring: "insertMe"};
+    const validObject2 = {searchValue: undefined, substring: "insertMe"};
+    const validObject3 = {searchValue: {regexBody: "(BREAKING CHANGE)", regexFlags: "hello"}, substring: "insertMe"};
+    const validObject4 = {searchValue: "searchMe", substring: null};
+    const validObject5 = {searchValue: /searchMe/, substring: undefined};
+    const validObject6 = {searchValue: /searchMe/, substring: {}};
+    const validObject7 = {searchValue: /searchMe/, substring: []};
+
+    assert.strictEqual(false, opt.isReplaceObject(validObject1));
+    assert.strictEqual(false, opt.isReplaceObject(validObject2));
+    assert.strictEqual(false, opt.isReplaceObject(validObject3));
+    assert.strictEqual(false, opt.isReplaceObject(validObject4));
+    assert.strictEqual(false, opt.isReplaceObject(validObject5));
+    assert.strictEqual(false, opt.isReplaceObject(validObject6));
+    assert.strictEqual(false, opt.isReplaceObject(validObject7));
 
   });
 
 
-  it('standardizeReplaceObject ', function () {
+  it('parseStringToArray valid', function () {
+    const validString = "[{searchValue:'\\n', substring:'\\n  * '},{searchValue: {regexBody: '.* %_\w.*', regexFlags: 'g'}, substring: ''},{searchValue: {regexBody:'Change', regexFlags:'g'}, substring: 'Modification'}]";
 
+    const result = opt.parseStringToArray(validString);
+
+    assert.strictEqual(3, result.length);
+    assert.deepStrictEqual('\n', result[0].searchValue);
+    assert.deepStrictEqual('\n  * ', result[0].substring);
+    assert.deepStrictEqual({regexBody: '.* %_w.*', regexFlags: 'g'}, result[1].searchValue);
+    assert.deepStrictEqual('', result[1].substring);
+    assert.deepStrictEqual({regexBody: 'Change', regexFlags: 'g'}, result[2].searchValue);
+    assert.deepStrictEqual('Modification', result[2].substring);
   });
 
 
-  it('standardizeReplaceObject ', function () {
+  it('extendOptions valid', function () {
+    const baseObject = {
+      a: "a",
+      b: "b",
+      c: "c"
+    };
+
+    const extendObject = {
+      a: "new a",
+      b: "new b",
+      d: "new d"
+    };
+
+    const expectedResult = {
+      a: "new a",
+      b: "new b",
+      c: "c"
+    };
+
+    const result = opt.extendOptions(baseObject, extendObject);
+
+    assert.deepStrictEqual(expectedResult, result);
+  });
+
+  it('extendOptions null', function () {
+    const baseObject = {
+      a: "a",
+      b: "b",
+      c: null
+    };
+
+    const extendObject = {
+      a: "new a",
+      b: "new b",
+      c: "new c",
+    };
+
+    const expectedResult = {
+      a: "new a",
+      b: "new b",
+      c: "new c"
+    };
+
+    const result1 = opt.extendOptions(baseObject, extendObject);
+    const result2 = opt.extendOptions(null, extendObject);
+    const result3 = opt.extendOptions(baseObject, null);
+
+    assert.deepStrictEqual(expectedResult, result1);
+    assert.deepStrictEqual(null, result2);
+    assert.deepStrictEqual(result3, result3);
 
   });
 
+  it('extendOptions undefined', function () {
+    const baseObject = {
+      a: "a",
+      b: "b",
+      c: undefined
+    };
 
-  it('standardizeReplaceObject ', function () {
+    const extendObject = {
+      a: "new a",
+      b: "new b",
+      c: "new c",
+    };
 
+    const expectedResult = {
+      a: "new a",
+      b: "new b",
+      c: "new c"
+    };
+
+    const result1 = opt.extendOptions(baseObject, extendObject);
+    const result2 = opt.extendOptions(undefined, extendObject);
+    const result3 = opt.extendOptions(baseObject, undefined);
+
+    assert.deepStrictEqual(expectedResult, result1);
+    assert.deepStrictEqual(undefined, result2);
+    assert.deepStrictEqual(result3, result3);
   });
 
 
-  it('standardizeReplaceObject ', function () {
+  it('basicParseSearchObjects ', function () {
 
-  });
+    const input = {
+      "groupRegex": [
+        {
+          "searchValue": {
+            "regexBody": "BREAKING CHANGE"
+          },
+          "headline": "Breaking changes"
+        },
+        {
+          "searchValue": {
+            "regexBody": "^feat"
+          },
+          "headline": "Features"
+        },
+        {
+          "searchValue": {
+            "regexBody": "^fix"
+          },
+          "headline": "Fixes"
+        }
+      ],
+      "replaceBody": "",
+      "replaceFooter": [
+        {
+          "searchValue": {
+            "regexBody": "(BREAKING CHANGE)",
+            "regexFlags": "g"
+          },
+          "replaceValue": "**$1**"
+        }
+      ],
+    };
 
+    const result = opt.basicParseSearchObjects(input);
 
-  it('standardizeReplaceObject ', function () {
+    assert.strictEqual(3, result.groupRegex.length);
+    assert.deepStrictEqual(/BREAKING CHANGE/, result.groupRegex[0].searchValue);
+    assert.deepStrictEqual(/^feat/, result.groupRegex[1].searchValue);
 
   });
 
