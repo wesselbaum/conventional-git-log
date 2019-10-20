@@ -6,19 +6,19 @@
       "searchValue": {
         "regexBody": "BREAKING CHANGE"
       },
-      "headline": "Breaking changes"
+      "headline": ":boom: Breaking changes"
     },
     {
       "searchValue": {
         "regexBody": "^feat"
       },
-      "headline": "Features"
+      "headline": ":sparkles: Features"
     },
     {
       "searchValue": {
         "regexBody": "^fix"
       },
-      "headline": "Fixes"
+      "headline": ":bug: Fixes"
     }
   ],
   "groupTemplate": "## %_headline",

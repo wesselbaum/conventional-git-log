@@ -40,6 +40,7 @@
     "git-raw-commits": "^2.0.0",
     "git-remote-protocol": "^0.1.0",
     "lodash": "^4.17.5",
+    "node-emoji": "^1.10.0",
     "parse-commit-message": "^3.2.3",
     "remote-origin-url": "^2.0.0",
     "replace-string": "^3.0.0",
