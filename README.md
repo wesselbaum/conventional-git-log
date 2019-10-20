@@ -35,7 +35,7 @@ I do definitely suggest you to use the configuration file since you will find ty
 | `config` | Configuration JSON file. __CLI ONLY__ | `undefined` |
 | `format` | Format based on [git log format](https://www.git-scm.com/docs/git-log#Documentation/git-log.txt-emnem). In addition there are **Custom placeholder**(see below) | `"* **%_hScope:** %_hSubject ([%h](%_o/commit/%h)) @%an%n  * %_b%n  * %_f"` |
 | `since` | Since which tag commits should be crawled. Tag commit itself will not be included. `"package"` gets the current version from the `package.json` file and prepends an "v". `""` means no limitation. | `"package"` |
-| `orderBy` | Custom placeholder which should be sorted by. | `"%_hSubject"` |
+| `orderBy` | Custom placeholder which should be sorted by. | `"%_hScope"` |
 | `order` | "ASC" for ascending and "DESC" for descending order. | `"ASC"` |
 | `groupRegex` | Array of objects to create groups. If parsing of the groupRegex fails the following fallback will be used `[{regex: /.*/,headline: 'All commits'}]` which outputs all commits with the headline "All commits" | `{searchValue: {regexBody: "BREAKING CHANGE"}, headline: "Breaking changes"},{searchValue: {regexBody: "^feat"}, headline: "Features"},{searchValue: {regexBody: "^fix"}, headline: "Fixes"}` |
 | `groupTemplate` | Template for the Headline. The groupRegex.headline will be inserted for %_headline placeholder available only here. | `"## %_headline"` |
