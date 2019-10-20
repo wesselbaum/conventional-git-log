@@ -1,5 +1,5 @@
 {
-  "orderBy": "%_hSubject",
+  "orderBy": "%_hScope",
   "order": "ASC",
   "groupRegex": [
     {
