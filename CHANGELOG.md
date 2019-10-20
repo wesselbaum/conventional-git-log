@@ -1,5 +1,5 @@
 # [2.0.0] - 2019-10-20 
-##  💥Breaking changes
+## 💥 Breaking changes
 * **Options:** Options get read from configuration and a new replace syntax. ([1529826](https://github.com/wesselbaum/conventional-git-log/commit/1529826)) @Aleksej Wesselbaum
 
 ## ✨ Features
