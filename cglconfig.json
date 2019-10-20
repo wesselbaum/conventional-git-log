@@ -25,15 +25,7 @@
   "outputEmptyGroup": true,
   "replaceSubject": "",
   "replaceBody": "",
-  "replaceFooter": [
-    {
-      "searchValue": {
-        "regexBody": "(BREAKING CHANGE)",
-        "regexFlags": "g"
-      },
-      "replaceValue": "**$1**"
-    }
-  ],
+  "replaceFooter": "",
   "replaceInterpolated": "",
   "q": false
 }
