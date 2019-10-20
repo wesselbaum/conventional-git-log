@@ -15,7 +15,8 @@
     "test": "./node_modules/.bin/mocha",
     "cover": "istanbul cover _mocha",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
-    "changelog": "./index.js --outputEmptyGroup false --replaceBody \"[{replace: '\\n',substring:'\\n  * '}]\" --replaceInterpolated \"[{replace: /  \\* \\\\n/, substring: ''},{replace: /\\\\n  \\* $/, substring: ''}]\""
+    "changelog": "./index.js --config='./changelog_config.json' |cat - ./CHANGELOG.md > /tmp/out && mv /tmp/out ./CHANGELOG.md",
+    "test_changelog": "./index.js --config='./changelog_config.json'"
   },
   "keywords": [
     "git",

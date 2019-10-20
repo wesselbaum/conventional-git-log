@@ -1,0 +1,119 @@
+{
+  "orderBy": "%_hSubject",
+  "order": "ASC",
+  "groupRegex": [
+    {
+      "searchValue": {
+        "regexBody": "BREAKING CHANGE"
+      },
+      "headline": ":boom: Breaking changes"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^feat"
+      },
+      "headline": ":sparkles: Features"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^fix"
+      },
+      "headline": ":bug: Fixes"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^docs"
+      },
+      "headline": ":books: Documentation"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^style"
+      },
+      "headline": ":gem: Styles"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^refactor"
+      },
+      "headline": ":package: Code Refactoring"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^perf"
+      },
+      "headline": ":rocket: Performance Improvements"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^test"
+      },
+      "headline": ":rotating_light: Tests"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^build"
+      },
+      "headline": ":hammer_and_wrench: Builds"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^ci"
+      },
+      "headline": ":gear: Continuous Integrations"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^chore"
+      },
+      "headline": ":recycle: Chores"
+    },
+    {
+      "searchValue": {
+        "regexBody": "^revert"
+      },
+      "headline": ":wastebasket: Reverts"
+    },
+    {
+      "searchValue": {
+        "regexBody": ".*"
+      },
+      "headline": ":poop: Other"
+    }
+  ],
+  "groupTemplate": "## %_headline",
+  "outputEmptyGroup": false,
+  "replaceSubject": "",
+  "replaceBody": "",
+  "replaceFooter": [
+    {
+      "searchValue": {
+        "regexBody": "(BREAKING CHANGE)",
+        "regexFlags": "g"
+      },
+      "replaceValue": "**$1**"
+    }
+  ],
+  "replaceInterpolated": [
+    {
+      "explanation": "Removes empty bodies",
+      "searchValue": {
+        "regexBody": "\n.*\\* \\%_b"
+      },
+      "replaceValue": ""
+    },
+    {
+      "explanation": "Removes empty footers",
+      "searchValue": {
+        "regexBody": "\n.*\\* \\%_f"
+      },
+      "replaceValue": ""
+    },
+    {
+      "explanation": "Removes empty scopes",
+      "searchValue": "**%_hScope:** ",
+      "replaceValue": ""
+    }
+  ],
+  "q": true
+}
