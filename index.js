@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-//./index.js  --since "v0.0.2" --outputEmptyGroup 1 --replaceBody "[{replace: '\n',substring:'\n  * '}]" --replaceInterpolated "[{replace: /  \* \\n/, substring: ''},{replace: /\\n  \* $/, substring: ''}]"
-
 const commitsSince = require("./lib/commitsSince");
 const commitsToObject = require("./lib/commitsToObjects");
 const orderCommits = require("./lib/orderCommits").orderCommits;

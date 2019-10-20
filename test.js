@@ -33,8 +33,8 @@ describe('commitsToObjects', function () {
     assert.strictEqual(commitObject.hSubject, "More consistent replacements");
     assert.strictEqual(commitObject.parsedCommitMessage.body, "A sting won\'t be converted to a RegExp");
     assert.strictEqual(commitObject.b, "A sting won\'t be converted to a RegExp");
-    assert.strictEqual(commitObject.parsedCommitMessage.footer, "**BREAKING CHANGE**: Test");
-    assert.strictEqual(commitObject.f, "**BREAKING CHANGE**: Test");
+    assert.strictEqual(commitObject.parsedCommitMessage.footer, "BREAKING CHANGE: Test");
+    assert.strictEqual(commitObject.f, "BREAKING CHANGE: Test");
     assert.strictEqual(commitObject.origin, "origin");
     assert.strictEqual(commitObject.o, "origin");
 
@@ -71,8 +71,8 @@ describe('commitsToObjects', function () {
     assert.strictEqual(commitObjects[0].hSubject, "More consistent replacements");
     assert.strictEqual(commitObjects[0].parsedCommitMessage.body, "A sting won\'t be converted to a RegExp");
     assert.strictEqual(commitObjects[0].b, "A sting won\'t be converted to a RegExp");
-    assert.strictEqual(commitObjects[0].parsedCommitMessage.footer, "**BREAKING CHANGE**: Test");
-    assert.strictEqual(commitObjects[0].f, "**BREAKING CHANGE**: Test");
+    assert.strictEqual(commitObjects[0].parsedCommitMessage.footer, "BREAKING CHANGE: Test");
+    assert.strictEqual(commitObjects[0].f, "BREAKING CHANGE: Test");
     assert.strictEqual(commitObjects[0].origin, "origin");
     assert.strictEqual(commitObjects[0].o, "origin");
 
