@@ -31,7 +31,7 @@ commitsSince.commitsSince(options.since, options.format).then(function (rawCommi
   for (let headline in groupedCommits) {
     if (groupedCommits[headline].length > 0 || options.outputEmptyGroup) {
 
-      console.log(emoji.emojify(headline));
+      console.log(emoji.emojify(options.groupTemplate.replace("%_headline", headline)));
 
       for (let i = 0; i < groupedCommits[headline].length; i++) {
         console.log(groupedCommits[headline][i].interpolatedCommitMessage);
