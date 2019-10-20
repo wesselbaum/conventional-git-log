@@ -9,6 +9,14 @@ const groupCommits = require("./lib/groupCommits").groupCommits;
 const options = require("./lib/options").getOptions();
 const origin = require('remote-origin-url');
 const gitRemote = require('git-remote-protocol');
+const argv = require('yargs').argv;
+const fs = require('fs');
+
+if (argv.v) {
+  console.log(JSON.parse(fs.readFileSync('./package.json')));
+  return;
+}
+
 
 commitsSince.commitsSince(options.since, options.format).then(function (rawCommits) {
   let origin = getOrigin();
@@ -22,7 +30,6 @@ commitsSince.commitsSince(options.since, options.format).then(function (rawCommi
   for (let headline in groupedCommits) {
     if (groupedCommits[headline].length > 0 || options.outputEmptyGroup) {
 
-      console.log(options.groupTemplate.replace("%_headline", headline));
       for (let i = 0; i < groupedCommits[headline].length; i++) {
         console.log(groupedCommits[headline][i].interpolatedCommitMessage);
       }
