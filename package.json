@@ -1,6 +1,6 @@
 {
   "name": "conventional-git-log",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Extend git log with conventional commits, origin URL and custom replacements",
   "main": "./index.js",
   "repository": {
@@ -12,9 +12,8 @@
   },
   "homepage": "https://github.com/wesselbaum/conventional-git-log#readme",
   "scripts": {
-    "test": "./node_modules/.bin/mocha",
-    "cover": "istanbul cover _mocha",
-    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
+    "test": "nyc mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "changelog": "./index.js --config='./changelog_config.json' |cat - ./CHANGELOG.md > /tmp/out && mv /tmp/out ./CHANGELOG.md",
     "test_changelog": "./index.js --config='./changelog_config.json'"
   },
@@ -38,25 +37,25 @@
   "dependencies": {
     "findup-sync": "^4.0.0",
     "git-commits-since": "^2.0.5",
-    "git-raw-commits": "^2.0.0",
+    "git-raw-commits": "^2.0.2",
     "git-remote-protocol": "^0.1.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.15",
     "node-emoji": "^1.10.0",
     "parse-commit-message": "^3.2.3",
     "remote-origin-url": "^2.0.0",
     "replace-string": "^3.0.0",
     "sort-objects-array": "^1.7.0",
-    "yargs": "^14.0.0"
+    "yargs": "^14.2.0"
   },
   "bin": {
     "convention-commit-log": "./index.js"
   },
   "devDependencies": {
-    "@types/node": "^12.7.12",
-    "coveralls": "^3.0.6",
-    "istanbul": "^0.4.5",
-    "mocha": "^6.2.0",
-    "mocha-lcov-reporter": "^1.3.0"
+    "@types/node": "^12.11.1",
+    "coveralls": "^3.0.7",
+    "mocha": "^6.2.2",
+    "mocha-lcov-reporter": "^1.3.0",
+    "nyc": "^14.1.1"
   },
   "os": [
     "!win32",

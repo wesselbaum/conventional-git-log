@@ -84,7 +84,15 @@
   "groupTemplate": "## %_headline",
   "outputEmptyGroup": false,
   "replaceSubject": "",
-  "replaceBody": "",
+  "replaceBody": [
+    {
+      "searchValue": {
+        "regexBody": "\\n",
+        "regexFlags": "g"
+      },
+      "replaceValue": "\n  * "
+    }
+  ],
   "replaceFooter": [
     {
       "searchValue": {
@@ -113,6 +121,22 @@
       "explanation": "Removes empty scopes",
       "searchValue": "**%_hScope:** ",
       "replaceValue": ""
+    },
+    {
+      "explanation": "Removes empty list entries",
+      "searchValue": {
+        "regexBody": "  \\*( $| \\n)",
+        "regexFlags": "g"
+      },
+      "replaceValue": ""
+    },
+    {
+      "explanation": "Removes empty lines",
+      "searchValue": {
+        "regexBody": "\n$",
+        "regexFlags": "g"
+      },
+      "replaceValue": "xxx"
     }
   ],
   "q": true
