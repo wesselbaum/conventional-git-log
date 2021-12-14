@@ -42,7 +42,7 @@
     "lodash": "^4.17.20",
     "node-emoji": "^1.10.0",
     "parse-commit-message": "^3.2.3",
-    "remote-origin-url": "^2.0.0",
+    "remote-origin-url": "git@github.com:adjoinant/remote-origin-url.git#fix\/hasOwnProperty",
     "replace-string": "^3.1.0",
     "sort-objects-array": "^1.7.1",
     "yargs": "^15.4.1"
