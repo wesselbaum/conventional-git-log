@@ -5,11 +5,13 @@ const commitsToObject = require("./lib/commitsToObjects");
 const orderCommits = require("./lib/orderCommits").orderCommits;
 const groupCommits = require("./lib/groupCommits").groupCommits;
 const options = require("./lib/options").getOptions();
-const origin = require('remote-origin-url');
 const gitRemote = require('git-remote-protocol');
 const argv = require('yargs').argv;
 const fs = require('fs');
 const emoji = require('node-emoji');
+const Githost = require('find-githost')
+const githost = Githost.fromDir('.')
+
 
 if (argv.v) {
   console.log(JSON.parse(fs.readFileSync('./package.json')));
@@ -18,7 +20,7 @@ if (argv.v) {
 
 
 commitsSince.commitsSince(options.since, options.format).then(function (rawCommits) {
-  let origin = getOrigin();
+  let origin = githost.https();
   let commitObjects = commitsToObject.commitsToObject(rawCommits, origin, options);
 
   commitObjects = orderCommits(commitObjects, options.order, options.orderBy);
