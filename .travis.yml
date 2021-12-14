@@ -3,7 +3,7 @@ os:
   - linux
   - osx
 node_js:
-  - '16'
+  - '11'
   - '10'
 
 install:
