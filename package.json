@@ -1,6 +1,6 @@
 {
   "name": "conventional-git-log",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Extend git log with conventional commits, origin URL and custom replacements",
   "main": "./index.js",
   "repository": {
