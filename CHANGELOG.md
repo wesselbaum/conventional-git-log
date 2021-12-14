@@ -1,6 +1,3 @@
-# [2.0.2] - 2021-12-14
-## 🐛 Fixes
-* **dependencies:** replaced `remote-origin-url` with `find-githost` for node16 support ([db6a726](https://github.com/wesselbaum/conventional-git-log.git/commit/db6a726)) @awesselb
 # [2.0.0] - 2019-10-20 
 ## 💥 Breaking changes
 * **Options:** Options get read from configuration and a new replace syntax. ([1529826](https://github.com/wesselbaum/conventional-git-log/commit/1529826)) @Aleksej Wesselbaum
