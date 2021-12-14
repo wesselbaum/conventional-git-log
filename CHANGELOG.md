@@ -1,3 +1,7 @@
+## 🐛 Fixes
+* **audit:** audited packages ([5882654](https://github.com/wesselbaum/conventional-git-log/commit/5882654)) @awesselb
+* **node:** removed shebang ([a77f4e3](https://github.com/wesselbaum/conventional-git-log/commit/a77f4e3)) @awesselb
+* **package:** replaced not working version with a fork ([5fcda40](https://github.com/wesselbaum/conventional-git-log/commit/5fcda40)) @awesselb
 # [2.0.0] - 2019-10-20 
 ## 💥 Breaking changes
 * **Options:** Options get read from configuration and a new replace syntax. ([1529826](https://github.com/wesselbaum/conventional-git-log/commit/1529826)) @Aleksej Wesselbaum
