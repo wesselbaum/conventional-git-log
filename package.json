@@ -35,7 +35,6 @@
   "author": "Aleksej Wesselbaum",
   "license": "MIT",
   "dependencies": {
-    "find-githost": "^1.0.0",
     "findup-sync": "^4.0.0",
     "git-commits-since": "^2.0.5",
     "git-raw-commits": "^2.0.7",
@@ -43,6 +42,7 @@
     "lodash": "^4.17.20",
     "node-emoji": "^1.10.0",
     "parse-commit-message": "^3.2.3",
+    "remote-origin-url": "^2.0.0",
     "replace-string": "^3.1.0",
     "sort-objects-array": "^1.7.1",
     "yargs": "^15.4.1"

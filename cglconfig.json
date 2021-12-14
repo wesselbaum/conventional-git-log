@@ -19,12 +19,6 @@
         "regexBody": "^fix"
       },
       "headline": ":bug: Fixes"
-    },
-    {
-      "searchValue": {
-        "regexBody": ".*"
-      },
-      "headline": ":poop: Other"
     }
   ],
   "groupTemplate": "## %_headline",
